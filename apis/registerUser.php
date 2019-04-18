@@ -1,12 +1,13 @@
 <?php
-if (isset($_POST['name']))// If form submitted, insert values into the database.
+$response = array();
+if (isset($_POST['Name'],$_POST['Email'],$_POST['Password']))// If form submitted, insert values into the database.
 	{
 
 	require '../../config/dbConnection.php';
 	$user_id = substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, 4);
-	$username = $_POST['name'];
-	$user_email = $_POST['email'];
-	$user_password = $_POST['password'];
+	$username = $_POST['Name'];
+	$user_email = $_POST['Email'];
+	$user_password = $_POST['Password'];
 
 	$check="SELECT * FROM `veterans_auth` WHERE email ='".$user_email."'";
 	$duplicate=mysqli_query($con,$check);
@@ -14,7 +15,9 @@ if (isset($_POST['name']))// If form submitted, insert values into the database.
 	
 	if($no_of_duplicate_entries>0)
 	{
-		echo "{'status':'failure','error':'Email Already Registered'}";
+		$response["status"]="failure";
+		$response["msg"]="Email Already Registered";
+		echo json_encode($response);
 	}
 	else
 	{
@@ -31,18 +34,15 @@ if (isset($_POST['name']))// If form submitted, insert values into the database.
 		$result = mysqli_query($con,$query);
 		if($result)
 		{
-
-			echo '
-			{
-				"status":"success",
-				"msg":"User Registered Successfully",
-				}
-
-			';
+				$response["status"]="success";
+				$response["msg"]="User Registered Successfully";
+				echo json_encode($response);
 		}	
 		else
 			{
-				echo "{'status':'failure','error':'Error Adding Trial Quota'}";
+				$response["status"]="failure";
+				$response["msg"]="Error Registering user";
+				echo json_encode($response);
 			}
 		
 		
@@ -52,7 +52,8 @@ if (isset($_POST['name']))// If form submitted, insert values into the database.
 }
 else
 {
-	echo "{'error':'unauthorized access'}";
+	$response["error"] = "Unauthorized Access";
+	echo json_encode($response);
 }
 
 
