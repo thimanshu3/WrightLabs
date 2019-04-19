@@ -1,7 +1,7 @@
 <?php
 	require '../dbConfig/dbconfig.php';
 	$response = array();
-	if (isset($_POST['Name'],$_POST['Password'],$_POST['Email']))
+	if (isset($_POST['Name']) && isset($_POST['Password']) && isset($_POST['Email']))
 	{
 		$username = mysqli_real_escape_string($con,stripslashes($_POST['Name']));
 		$password = mysqli_real_escape_string($con,stripslashes($_POST['Password']));

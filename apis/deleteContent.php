@@ -1,6 +1,6 @@
 <?php
 $response = array();
-if (isset($_POST['Email'],$_POST['content_id']))
+if (isset($_POST['Email']) && isset($_POST['content_id']))
 {
 	require '../dbConfig/dbconfig.php';
 	

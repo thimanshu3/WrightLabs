@@ -1,6 +1,6 @@
 <?php
 $response = array();
-if (isset($_POST['Name'],$_POST['Email'],$_POST['Password']))// If form submitted, insert values into the database.
+if (isset($_POST['Name']) && isset($_POST['Email']) && isset($_POST['Password']))// If form submitted, insert values into the database.
 	{
 	require '../dbConfig/dbconfig.php';
 	$user_id = substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, 4);
