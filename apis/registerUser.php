@@ -2,8 +2,7 @@
 $response = array();
 if (isset($_POST['Name'],$_POST['Email'],$_POST['Password']))// If form submitted, insert values into the database.
 	{
-
-	require '../../config/dbConnection.php';
+	require '../dbConfig/dbconfig.php';
 	$user_id = substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, 4);
 	$username = $_POST['Name'];
 	$user_email = $_POST['Email'];
@@ -21,7 +20,6 @@ if (isset($_POST['Name'],$_POST['Email'],$_POST['Password']))// If form submitte
 	}
 	else
 	{
-
 		$user_id = substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, 16);
 		$username = stripslashes($username);
 		$username = mysqli_real_escape_string($con,$username);
@@ -44,10 +42,6 @@ if (isset($_POST['Name'],$_POST['Email'],$_POST['Password']))// If form submitte
 				$response["msg"]="Error Registering user";
 				echo json_encode($response);
 			}
-		
-		
-	
-	
 	}
 }
 else
