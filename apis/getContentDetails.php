@@ -1,5 +1,6 @@
 <?php
 $response = array();
+$response2 = array();
 if (isset($_POST['Email']))
 {
 	require '../dbConfig/dbconfig.php';
@@ -13,14 +14,15 @@ if (isset($_POST['Email']))
 	*/
 
 		$query1 = "SELECT * FROM `veterans_auth` WHERE email='$email'";
-		$result = mysqli_query($con,$query1);
+		$result = mysqli_query($con,$query1) or die(mysqli_error($con));
 		$result = mysqli_fetch_assoc($result);
-		 
-				  if($result['email']=$email)
+		$index = 1;
+			if($result['email']=$email)
 				  {
 					$query="SELECT * FROM `content` WHERE user_content_email ='".$email."'";
-					$content_details = mysqli_query($con,$query);
-					$content_details = mysqli_fetch_assoc($content_details);
+					$content_detail = mysqli_query($con,$query) or die(mysqli_error($conn));
+					while($content_details = mysqli_fetch_assoc($content_detail)) 
+					{
 					$content = $content_details['content'];
 					$publish_status = $content_details['publish_status'];
 					$content_type = $content_details['content_type'];
@@ -34,12 +36,11 @@ if (isset($_POST['Email']))
 					$response["content"]=$content;
 					$response["publish_status"]=$publish_status;
 					$response["expected_price"]=$expected_price;
-					echo json_encode($response);
-					  
-					  
-					  $response["status"] = "success";
-					  $response["msg"] = "Logged In..";
-					  echo json_encode($response);
+					
+					$response2[$index] = $response;
+					$index++;
+					}
+					echo json_encode($response2);
 				  }
 				  else
 				  {
@@ -47,9 +48,9 @@ if (isset($_POST['Email']))
 					  $response["msg"] = "Oops.. connection lost or user not found..";
 					  echo json_encode($response);
 				  }
-	
+			
 	//Finding Question Details based on QuestionId
-		
+			
 }
 else
 {
